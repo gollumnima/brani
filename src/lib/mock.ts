@@ -1,4 +1,4 @@
-import type { SentenceWithBook } from '@/types'
+import type { Profile, SentenceWithBook } from '@/types'
 
 export const MOCK_SENTENCES: SentenceWithBook[] = [
   {
@@ -74,6 +74,31 @@ export const MOCK_SENTENCES: SentenceWithBook[] = [
     profile: { id: 'user-1', username: 'doori', avatar_url: null },
   },
 ]
+
+export const MOCK_MY_PROFILE: Profile = {
+  id: 'user-1',
+  username: 'doori',
+  avatar_url: null,
+  bio: '책 속의 문장을 수집하는 사람 📚',
+  created_at: '2026-01-01T00:00:00Z',
+}
+
+export function getMySentences(): SentenceWithBook[] {
+  return MOCK_SENTENCES.filter((s) => s.profile.id === 'user-1')
+}
+
+export function getSavedSentences(): SentenceWithBook[] {
+  return MOCK_SENTENCES.filter((s) => s.is_saved)
+}
+
+export function getMyStats() {
+  const mine = getMySentences()
+  return {
+    sentenceCount: mine.length,
+    likeCount: mine.reduce((sum, s) => sum + s.like_count, 0),
+    saveCount: mine.reduce((sum, s) => sum + s.save_count, 0),
+  }
+}
 
 export function searchMockSentences(query: string): SentenceWithBook[] {
   const q = query.toLowerCase()
